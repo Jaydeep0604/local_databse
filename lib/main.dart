@@ -7,9 +7,9 @@ import 'package:local_databases/config/hive_store.dart';
 import 'package:local_databases/model/detail_model.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:local_databases/ui/home_screen.dart';
-import 'model/object_box_detail_model.dart';
+// import 'model/object_box_detail_model.dart';
 
-late ObjectBoxDetailModel objectBoxDetailModel;
+// late ObjectBoxDetailModel objectBoxDetailModel;
 
 void main() async {
   await Hive.initFlutter();
@@ -18,13 +18,18 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   //objectBoxDetailModel = (await objectBoxDetailStore.init());
-  runApp(MultiBlocProvider(providers: [
-    BlocProvider(
-      create: (context) => DetailBloc(),
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DetailBloc(),
+        ),
+        BlocProvider(create: (context) => SharedDetailBloc()),
+        BlocProvider(create: (context) => ObjectBoxDetailBloc())
+      ],
+      child: MyApp(),
     ),
-    BlocProvider(create: (context) => SharedDetailBloc()),
-    BlocProvider(create: (context) => ObjectBoxDetailBloc())
-  ], child: MyApp()));
+  );
 }
 
 class MyApp extends StatelessWidget {
